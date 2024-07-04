@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Musik Kesukaanmu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: url('Gambar1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            transition: background 1s ease-in-out;
+        }
+
+        #message-container {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            max-height: 60%;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .message {
+            font-style: italic;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        audio {
+            display: none;
+        }
+
+        #playButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pesan & Lagu Untuk Mu Ilaa🤗</h1>
+    <audio id="myAudio">
+        <source src="lagu.mp3" type="audio/mpeg">
+        Maaf, browser Anda tidak mendukung pemutar musik ini.
+    </audio>
+    <div id="message-container"></div>
+    <button id="playButton">Klik Ini Ilaa☺</button>
+    <script>
+        var audio = document.getElementById("myAudio");
+        var container = document.getElementById("message-container");
+        var playButton = document.getElementById("playButton");
+        var messages = [
+            "Ilaa sayang kuu jika terdapat cobaan hadapi semua cobaan dengan keteguhan hati, karena aku selalu ada di sampingmu. Jangan lupa bersyukur untuk setiap langkah kecil yang kita lalui bersama.",
+            "Jangan khawatir, sayangkuu, setiap hari adalah kesempatan untuk belajar dan tumbuh. Percayalah pada dirimu sendiri, kamu pasti bisa menghadapi setiap tantangan yang akan datang.",
+            "Tetaplah bersyukur dan yakin, karena setiap langkah yang kamu ambil akan membawa kita lebih dekat ke masa depan yang cerah."
+        ];
+
+        var lyrics = [
+            { time: 33, text: "tak sadar ku temukan..." },
+            { time: 37, text: "temukan wanita rupawan yang sadarkan" },
+            { time: 42, text: "dia seorang tiada lain tiada bukan" },
+            { time: 48, text: "hanya dia" },
+            { time: 57, text: "Dia buatku nyaman" },
+            { time: 63, text: "Dalam hangat pelukan" },
+            { time: 67, text: "Dia perasa, Yang mengerti yang kurasa" },
+            { time: 73, text: "Hanya dia" },
+            { time: 85, text: "kan ku arungi tujuh laut samudra" },
+            { time: 88, text: "kan ku daki pegunungan himalaya" },
+            { time: 92, text: "apapun kan ku lakukan tuk dirimu sayang" },
+            { time: 97.3, text: "oh penjaga hati" },
+            { time: 113, text: "kau dan aku sempurna" },
+            { time: 117.2, text: "Semoga ada cara tuk terus bersama" },
+            { time: 122, text: "Selalu ku tunggu" },
+            { time: 125, text: "Tak mau berlalu" },
+            { time: 128.6, text: "Kau dan aku" },
+            { time: 132, text: "kan ku arungi tujuh laut samudra" },
+            { time: 147, text: "kan ku daki pegunungan himalaya" },
+            { time: 148, text: "apapun kan ku lakukan tuk dirimu sayang" },
+            { time: 152.3, text: "oh penjaga hatiku" },
+            { time: 160, text: "Interlude" },
+            { time: 185, text: "kan ku arungi tujuh laut samudra" },
+            { time: 197, text: "kan ku daki pegunungan himalaya" },
+            { time: 198, text: "apapun kan ku lakukan tuk dirimu sayang" },
+            { time: 202.3, text: "oh penjaga hatiku" },
+            { time: 209, text: "Karna bersamamu semua terasa indah" },
+            { time: 215, text: "Gundah gulana hatiku tlah hancur sirna" },
+            { time: 221, text: "janji ku tak kan ku lepas wahai kau bidadariku dari surga" },
+            { time: 230, text: "tuk selamanya" }
+        ];
+
+        function typeMessage(message, callback) {
+            var index = 0;
+            var interval = setInterval(function () {
+                if (index < message.length) {
+                    container.innerHTML += message[index++];
+                } else {
+                    clearInterval(interval);
+                    if (callback) callback();
+                }
+            }, 10000 / message.length); // Kecepatan mengetik untuk setiap pesan
+        }
+
+        function showMessage(index) {
+            if (index < messages.length) {
+                container.innerHTML = ''; // Bersihkan pesan sebelumnya
+                typeMessage(messages[index], function () {
+                    if (index < messages.length - 1) {
+                        setTimeout(function () {
+                            showMessage(index + 1);
+                        }, 0); // Tidak ada jeda antara pesan
+                    } else {
+                        setTimeout(showLyrics, 2000); // Tampilkan lirik setelah pesan terakhir dengan jeda 2 detik
+                    }
+                });
+            } else {
+                showLyrics();
+            }
+        }
+
+        function showLyrics() {
+            container.innerHTML = ''; // Bersihkan pesan
+            var lyricsText = document.createElement('div');
+            lyricsText.classList.add('message');
+            container.appendChild(lyricsText);
+            audio.addEventListener("timeupdate", function () {
+                for (var i = 0; i < lyrics.length; i++) {
+                    if (audio.currentTime >= lyrics[i].time && (i == lyrics.length - 1 || audio.currentTime < lyrics[i + 1].time)) {
+                        lyricsText.innerHTML = lyrics[i].text;
+                        break;
+                    }
+                }
+            });
+        }
+
+        playButton.addEventListener("click", function () {
+            playButton.style.display = 'none'; // Sembunyikan tombol setelah diklik
+            audio.play(); // Putar musik ketika tombol diklik
+            showMessage(0); // Tampilkan pesan langsung
+        });
+
+        var backgrounds = ['Gambar1.jpg', 'Gambar2.jpg', 'Gambar3.jpg'];
+        var currentBackgroundIndex = 0;
+
+        function changeBackground() {
+            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
+            document.body.style.backgroundImage = `url('${backgrounds[currentBackgroundIndex]}')`;
+        }
+
+        setInterval(changeBackground, 5000); // Ganti latar belakang setiap 5 detik
+    </script>
+</body>
+
+</html>
